@@ -272,8 +272,18 @@ if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -G -g")
   else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
+
+   #check march is specified 
+   if(NOT CMAKE_C_FLAGS MATCHES "-march=")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast -march=native")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native")
     message(STATUS "Building with -march=native")
+    message(STATUS "Building with ${CMAKE_C_FLAGS}")
+   else()
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    message(STATUS "Building with ${CMAKE_C_FLAGS}")
+   endif()
   endif()
 
   set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} -lm") # Include math
